@@ -5,3 +5,15 @@ from api.models.db import db
 from api.models.set import Set
 
 sets = Blueprint('sets', 'sets')
+
+@sets.route('/', methods=["POST"])
+@login_required
+def create():
+  data = request.get_json()
+  profile = read_token(request)
+  data["profile_id"] = profile["id"]
+
+  set = Set(**data)
+  db.session.add(set)
+  db.session.commit()
+  return jsonify(set.serialize()), 201

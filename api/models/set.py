@@ -2,7 +2,7 @@ from datetime import datetime
 from api.models.db import db
 
 class Set(db.Model):
-  __tablename__ = 'Sets'
+  __tablename__ = 'sets'
   id = db.Column(db.Integer, primary_key=True)
   brand = db.Column(db.String(100))
   series = db.Column(db.String(100))
