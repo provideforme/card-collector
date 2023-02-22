@@ -43,3 +43,16 @@ def update(id):
 
   db.session.commit()
   return jsonify(set.serialize())
+
+@sets.route('/<id>', methods=["DELETE"])
+@login_required
+def delete(id):
+  profile = read_token(request)
+  set = Set.query.filter_by(id=id).first()
+
+  if set.profile_id != profile["id"]:
+    return 'Forbidden', 403
+
+  db.session.delete(set)
+  db.sessiom.commit()
+  return jsonify(message="Success"), 200
