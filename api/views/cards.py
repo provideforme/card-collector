@@ -27,3 +27,19 @@ def show(id):
   card = Card.query.filter_by(id=id).first()
   card_data = card.serialize()
   return jsonify(card=card_data), 200
+
+@cards.route('/<id>', methods=["PUT"])
+@login_required
+def update(id):
+  data = request.get_json()
+  profile = read_token(request)
+  card = Card.query.filter_by(id=id).first()
+
+  if card.profile_id != profile["id"]:
+    return 'Forbidden', 403
+
+  for key in data:
+    setattr(card, key, data[key])
+
+  db.session.commit()
+  return jsonify(card.serialize()), 200
