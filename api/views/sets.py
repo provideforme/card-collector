@@ -23,3 +23,8 @@ def index():
   sets = Set.query.all()
   return jsonify([set.serialize() for set in sets]), 201
 
+@sets.route('/<id>', methods=["GET"])
+def show(id):
+  set = Set.query.filter_by(id=id).first()
+  return jsonify(set.serialize()), 200
+
