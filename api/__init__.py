@@ -5,6 +5,7 @@ from api.models.db import db
 from config import Config
 
 # ============ Import Models ============
+from api.models.card import Card
 from api.models.user import User
 from api.models.profile import Profile
 
