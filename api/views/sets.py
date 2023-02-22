@@ -17,3 +17,9 @@ def create():
   db.session.add(set)
   db.session.commit()
   return jsonify(set.serialize()), 201
+
+@sets.route('/', methods=["GET"])
+def index():
+  sets = Set.query.all()
+  return jsonify([set.serialize() for set in sets]), 201
+
