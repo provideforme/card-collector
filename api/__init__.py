@@ -11,6 +11,7 @@ from api.models.user import User
 from api.models.profile import Profile
 
 # ============ Import Views ============
+from api.views.sets import sets
 from api.views.cards import cards
 from api.views.auth import auth
 
@@ -27,6 +28,7 @@ def create_app(config):
   cors.init_app(app, supports_credentials=True, methods=list)
 
   # ============ Register Blueprints ============
+  app.register_blueprint(sets, url_prefix='/api/sets')
   app.register_blueprint(cards, url_prefix='/api/cards')
   app.register_blueprint(auth, url_prefix='/api/auth') 
 
