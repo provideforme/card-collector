@@ -43,3 +43,16 @@ def update(id):
 
   db.session.commit()
   return jsonify(card.serialize()), 200
+
+@cards.route('/<id>', methods=["DELETE"])
+@login_required
+def delete(id):
+  profile = read_token(request)
+  card = Card.query.filter_by(id=id).first()
+
+  if card.profile_id != profile["id"]:
+    return 'Forbidden', 403
+
+  db.session.delete(card)
+  db.session.commit()
+  return jsonify(message="Success"), 200
