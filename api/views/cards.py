@@ -16,3 +16,8 @@ def create():
   db.session.add(card)
   db.session.commit()
   return jsonify(card.serialize()), 201
+
+@cards.route('/', methods=["GET"])
+def index():
+  cards = Card.query.all()
+  return jsonify([card.serialize() for card in cards]), 200
