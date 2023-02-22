@@ -14,5 +14,5 @@ class Set(db.Model):
     return f"Set('{self.id}', '{self.brand}'"
 
   def serialize(self):
-    set = {c.brand: getattr(self, c.name) for c in self.__table__.columns}
+    set = {c.brand: getattr(self, c.brand) for c in self.__table__.columns}
     return set
