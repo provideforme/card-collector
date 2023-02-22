@@ -28,3 +28,18 @@ def show(id):
   set = Set.query.filter_by(id=id).first()
   return jsonify(set.serialize()), 200
 
+@sets.route('/<id>', methods=["PUT"])
+@login_required
+def update(id):
+  data = request.get_json()
+  profile = read_token(request)
+  set = Set.query.filter_by(id=id).first()
+
+  if set.profile_id != profile["id"]:
+    return 'Forbidden', 403
+
+  for key in data:
+    setattr(set, key, data[key])
+
+  db.session.commit()
+  return jsonify(set.serialize())
