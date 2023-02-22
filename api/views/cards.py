@@ -21,3 +21,9 @@ def create():
 def index():
   cards = Card.query.all()
   return jsonify([card.serialize() for card in cards]), 200
+
+@cards.route('/<id>', methods=["GET"])
+def show(id):
+  card = Card.query.filter_by(id=id).first()
+  card_data = card.serialize()
+  return jsonify(card=card_data), 200
