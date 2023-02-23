@@ -4,10 +4,10 @@ from api.models.db import db
 class Trades(db.Model):
   __tablename__='trades'
   id = db.Column(db.Integer, primary_key=True)
-  trader = db.Column('trader', db.Enum('Shop', 'Individual', name='original_owner'))
+  trader = db.Column('trader', db.Enum('Shop', 'Individual', name='trader'))
   date = db.Column(db.DateTime, default=datetime.now(tz=None))
   created_at = db.Column(db.DateTime, default=datetime.now(tz=None))
-  card_id = db.Column(db.Integer, db.ForeignKey('cats.id'))
+  card_id = db.Column(db.Integer, db.ForeignKey('cards.id'))
 
   def __repr__(self):
     return f"Trades('{self.id}', '{self.trader}'"
