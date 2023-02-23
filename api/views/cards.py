@@ -4,8 +4,28 @@ from api.middleware import login_required, read_token
 from api.models.db import db
 from api.models.card import Card
 from api.models.trades import Trade
+from api.models.set import Set
+from api.models.set import Association
 
 cards = Blueprint('cards', 'cards')
+
+@cards.route('/<card_id>/sets/<set_id>', methods=["LINK"])
+@login_required
+def assoc_set(card_id, set_id):
+  data = { "card_id": card_id, "set_id": set_id }
+
+  profile = read_token(request)
+  card = Card.query.filter_by(id=card_id).first()
+
+  if card.profile_id != profile["id"]:
+    return 'Forbidden', 403
+
+  assoc = Association(**data)
+  db.session.add(assoc)
+  db.session.commit()
+
+  card = Card.query.filter_by(id=card_id).first()
+  return jsonify(card.serialize()), 201
 
 @cards.route('/', methods=["POST"])
 @login_required

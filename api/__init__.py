@@ -5,6 +5,7 @@ from api.models.db import db
 from config import Config
 
 # ============ Import Models ============
+from api.models.set import Association
 from api.models.trades import Trade
 from api.models.set import Set
 from api.models.card import Card
