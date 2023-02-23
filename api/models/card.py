@@ -11,9 +11,19 @@ class Card(db.Model):
   created_at = db.Column(db.DateTime, default=datetime.utcnow)
   profile_id = db.Column(db.Integer, db.ForeignKey('profiles.id'))
 
+  trades = db.relationship("Trading", cascade='all')
+
   def __repr__(self):
     return f"Card('{self.id}', '{self.name}')"
 
   def serialize(self):
     card = {c.name: getattr(self, c.name) for c in self.__table__.columns}
+    trades = [trade.serialize() for trade in self.trades]
+    card['trades'] = trades
     return card
+
+  def traded(self):
+    if len([f for f in self.trades if f.is_recent_trade() == True]) >= 3:
+      return True
+    else:
+      return False
