@@ -27,6 +27,7 @@ def index():
 def show(id):
   card = Card.query.filter_by(id=id).first()
   card_data = card.serialize()
+  card_data["traded"] = card.traded()
   return jsonify(card=card_data), 200
 
 @cards.route('/<id>', methods=["PUT"])
