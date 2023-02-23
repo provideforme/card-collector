@@ -102,3 +102,9 @@ def add_trade(id):
   card_data["traded"] = card.traded()
 
   return jsonify(card_data), 201
+
+...
+@cards.errorhandler(Exception)          
+def basic_error(err):
+  return jsonify(err=str(err)), 500
+...
