@@ -3,6 +3,7 @@ from api.middleware import login_required, read_token
 
 from api.models.db import db
 from api.models.card import Card
+from api.models.trades import Trade
 
 cards = Blueprint('cards', 'cards')
 
@@ -56,3 +57,25 @@ def delete(id):
   db.session.delete(card)
   db.session.commit()
   return jsonify(message="Success"), 200
+
+@cards.route('/<id>/trades', methods=["POST"])
+@login_required
+def add_trade(id):
+  data = request.get_json()
+  data["card_id"] = id
+
+  profile = read_token(request)
+  card = Card.query.filter_by(id=id).first()
+
+  if card.profile_id != profile["id"]:
+    return 'Forbidden', 403
+
+  trade = Trade(**data)
+
+  db.session.add(trade)
+  db.session.commit()
+
+  card_data = card.serialize()
+  card_data["traded"] = card.traded()
+
+  return jsonify(card_data), 201
