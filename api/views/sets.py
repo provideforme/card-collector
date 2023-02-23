@@ -54,5 +54,5 @@ def delete(id):
     return 'Forbidden', 403
 
   db.session.delete(set)
-  db.sessiom.commit()
+  db.session.commit()
   return jsonify(message="Success"), 200
