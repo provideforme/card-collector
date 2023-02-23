@@ -11,7 +11,7 @@ class Card(db.Model):
   created_at = db.Column(db.DateTime, default=datetime.utcnow)
   profile_id = db.Column(db.Integer, db.ForeignKey('profiles.id'))
 
-  trades = db.relationship("Trading", cascade='all')
+  trades = db.relationship("Trades", cascade='all')
 
   def __repr__(self):
     return f"Card('{self.id}', '{self.name}')"

@@ -1,7 +1,7 @@
 from datetime import datetime
 from api.models.db import db
 
-class Trading(db.Model):
+class Trades(db.Model):
   __tablename__='trades'
   id = db.Column(db.Integer, primary_key=True)
   trader = db.Column('trader', db.Enum('Shop', 'Individual', name='original_owner'))
@@ -10,7 +10,7 @@ class Trading(db.Model):
   card_id = db.Column(db.Integer, db.ForeignKey('cats.id'))
 
   def __repr__(self):
-    return f"Trading('{self.id}', '{self.trader}'"
+    return f"Trades('{self.id}', '{self.trader}'"
 
   def serialize(self):
     return {
