@@ -12,6 +12,7 @@ class Card(db.Model):
   profile_id = db.Column(db.Integer, db.ForeignKey('profiles.id'))
 
   trades = db.relationship("Trade", cascade='all')
+  sets = db.relationship("Set", secondary="associations")
 
   def __repr__(self):
     return f"Card('{self.id}', '{self.name}')"
@@ -19,7 +20,9 @@ class Card(db.Model):
   def serialize(self):
     card = {c.name: getattr(self, c.name) for c in self.__table__.columns}
     trades = [trade.serialize() for trade in self.trades]
+    sets = [set.serialize() for set in self.sets]
     card['trades'] = trades
+    card['sets'] = sets
     return card
 
   def traded(self):
