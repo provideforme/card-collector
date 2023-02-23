@@ -48,6 +48,8 @@ def show(id):
   card = Card.query.filter_by(id=id).first()
   card_data = card.serialize()
   card_data["traded"] = card.traded()
+  sets = Set.query.filter(Set.id.notin_([set.id for set in card.sets])).all()
+  sets=[set.serialize() for set in sets]
   return jsonify(card=card_data), 200
 
 @cards.route('/<id>', methods=["PUT"])
