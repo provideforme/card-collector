@@ -20,6 +20,6 @@ class Trading(db.Model):
       "date": self.date.strftime('%Y-%m-%d'),
     }
   
-  def is_recent_meal(self):
+  def is_recent_trade(self):
     if self.date.strftime('%Y-%m_%d') == datetime.now(tz=None).strftime('%Y-%m-%d'):
       return True
