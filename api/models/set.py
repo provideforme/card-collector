@@ -1,6 +1,12 @@
 from datetime import datetime
 from api.models.db import db
 
+class Association(db.Model):
+  __tablename__ = 'associations'
+  id = db.Column(db.Integer, primary_key=True)
+  card_id = db.Column(db.Integer, db.ForeignKey('cards.id', ondelete='cascade'))
+  set_id = db.Column(db.Integer, db.ForeignKey('sets.id', ondelete='cascade'))
+
 class Set(db.Model):
   __tablename__ = 'sets'
   id = db.Column(db.Integer, primary_key=True)
